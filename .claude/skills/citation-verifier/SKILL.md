@@ -20,9 +20,7 @@ license: MIT
 > - **Purpose:** Cross-check every claim in a target document against its source list and live URLs, assign a verdict per claim, and produce an audit report.
 > - **Called by:** the Verifier agent (`agent-verifier.md`), after Agents 1, 2, 4, and 5.
 > - **Inputs:** the caller's **target file** and **source list**. This skill is written with Agent 1's files as the running example (`reports/literature-review.md` vs `reports/law-sources.md`), but the Verifier applies the same procedure to any target/source pair it is given.
-> - **Outputs:** `reports/verification-report.md` (audit log) and a warning line appended to `logs/agent1-status.md` if integrity < 80%.
->
-> ⚠️ **Known inconsistency:** Step 6 below describes writing a separate `*-verified.md` copy. The current Verifier agent instead **patches the target file in place** and appends to `logs/patch-log.md` — it does *not* produce a `-verified.md` copy. Treat Step 6 as superseded by the agent's in-place instruction; follow Steps 1–5 and 7. This is flagged in the project README.
+> - **Outputs:** `reports/verification-report.md` (audit log), the target file patched in place with a verification banner at the top, an entry in `logs/patch-log.md`, and a warning line appended to `logs/agent1-status.md` if integrity < 80%.
 
 ---
 
@@ -149,14 +147,10 @@ Assign each claim one of:
 
 ---
 
-## Step 6: Write reports/literature-review-verified.md  — ⚠️ SUPERSEDED
+## Step 6: Apply Corrections In Place
 
-> **Superseded:** The Verifier agent patches the target file in place (see `agent-verifier.md`)
-> and does **not** write a `-verified.md` copy. Keep this step for historical reference only;
-> do not produce `reports/literature-review-verified.md`. Apply the corrections below directly
-> to the target file instead, and log them in `logs/patch-log.md`.
-
-Copy `reports/literature-review.md` in full, applying only these changes:
+Apply the corrections identified in Step 4 directly to the target file (e.g.
+`reports/literature-review.md`) — do not create a separate copy:
 
 - **OVERSTATED:** Soften the language to match what the source actually says
 - **UNDERSTATED:** Add a brief qualifier noting the nuance
@@ -164,13 +158,14 @@ Copy `reports/literature-review.md` in full, applying only these changes:
 - **UNSUPPORTED:** Add a `[UNVERIFIED — source not confirmed]` inline flag
 - **UNVERIFIABLE:** Add a `[UNVERIFIABLE — source URL dead]` inline flag
 
-Do not rewrite prose, restructure sections, or add new content.
-The goal is a faithfully corrected copy, not a new document.
+Change only the specific wrong phrase or sentence — never rewrite prose, restructure
+sections, or add new content. Log every applied patch to `logs/patch-log.md`
+(claim | original text | patched text | reason | source used to verify).
 
-At the top of the file, add:
+At the top of the target file, add:
 ```
 > **Verification status:** Audited by Verifier Agent on [date].
-> Integrity score: N%. See verification-report.md for full audit log.
+> Integrity score: N%. See reports/verification-report.md for full audit log.
 ```
 
 ---

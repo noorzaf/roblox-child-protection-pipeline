@@ -22,9 +22,30 @@ output in place, and **skills** encode the detailed procedures each agent follow
 
 ---
 
+## Key findings
+
+The full analysis is in `reports/final-report.md`. Headlines:
+
+- Child protection laws applicable to Roblox are failing in practice across every
+  measurable dimension — age verification, content filtering, and platform enforcement.
+- Self-declared age is defeated in minutes with no technical skill, and its replacement,
+  facial age verification, is defeated using a parent's or sibling's ID document.
+- The dominant harm pattern — contact starting on Roblox and escalating to Discord,
+  Snapchat, or Telegram — is not addressed by any legal framework in any jurisdiction.
+- Children's own reports confirm the gap: most are aware of common bypass methods, a large
+  share have encountered content they felt too young for, and almost none learned about
+  the rules from a parent.
+- Safety changes have consistently been reactive, introduced after litigation or
+  regulatory pressure rather than proactively.
+- The US's under-13/13–17 split leaves most teenage users without meaningful federal
+  protection; other jurisdictions have stronger statutory frameworks but inconsistent
+  enforcement against Roblox specifically.
+
+---
+
 ## Repository layout
 
-After the reorganisation, files live in four folders by role:
+Files are organised into four folders by role:
 
 | Folder | Contents |
 |---|---|
@@ -35,7 +56,7 @@ After the reorganisation, files live in four folders by role:
 | `.claude/agents/` | Agent definitions |
 | `.claude/skills/` | Skill definitions (`<name>/SKILL.md`) |
 
-Every agent and skill file now carries a **Pipeline Header** stating its purpose, inputs,
+Every agent and skill file carries a **Pipeline Header** stating its purpose, inputs,
 outputs, and which agents/skills it calls, with all paths pointing at these folders.
 
 ---
@@ -101,20 +122,10 @@ United Kingdom, Australia, Brazil, UN/International, India, South Korea** (eight
 
 ## Why there is no Agent 3
 
-The pipeline deliberately runs **Agent 1 → 2 → 4 → 5 → 6**. There is **no Agent 3** and no
-`agent3-*.md` file. The numbering gap is intentional:
-
-- A third agent was planned early on (slotted between the efficacy research and the survey
-  work) but was **dropped or merged** before the pipeline was built. Two leftover,
-  forward-looking references to it survived in the skills (`trend-report` had
-  "Recommendations for Agent 3"; `report-corrector` had "What Agent 3 should know") — these
-  have now been corrected to point at the real next stage (Agent 4) and to this note.
-- The later agents **kept their original numbers** (4, 5, 6) rather than being renumbered,
-  so that their output filenames, status files, and the many cross-references between them
-  didn't all have to change. Renumbering would have been churn with no benefit.
-
-So the gap is a historical artefact, not a missing or broken stage — the pipeline is complete
-as 1/2/4/5/6.
+The pipeline runs **Agent 1 → 2 → 4 → 5 → 6**: a planned third agent, slotted between the
+efficacy research and the survey design, was dropped before the pipeline was built, and
+the later agents kept their original numbers (4, 5, 6) rather than being renumbered. The
+gap is a naming artefact, not a missing or broken stage.
 
 ---
 
@@ -168,7 +179,7 @@ Re-run the Supervisor any time to see where you are and what to do next.
 **`data/`**
 - `raw-data.md` — cleaned, deduplicated, categorised, credibility-tiered efficacy evidence
   (49 entries, all Tier A, paraphrased — no victim identifiers).
-- `survey-results-a.csv`, `survey-results-b.csv` — raw survey responses (see data note below).
+- `survey-results-a.csv`, `survey-results-b.csv` — raw survey responses (see "Data & ethics" below).
 
 **`logs/`**
 - `agent1-status.md` … `agent6-status.md` — per-stage completion status and handoff notes.
@@ -176,41 +187,25 @@ Re-run the Supervisor any time to see where you are and what to do next.
 
 ---
 
-## Known inconsistencies (not blocking, worth fixing)
+## Data & ethics
 
-- **Verifier vs. citation-verifier skill.** The Verifier agent patches files **in place** and
-  logs to `logs/patch-log.md`; the `citation-verifier` skill's Step 6 still describes writing
-  a separate `*-verified.md` copy. Step 6 is marked **SUPERSEDED** in the skill. No
-  `*-verified.md` files should exist; several agents historically referenced
-  `trend-report-verified.md`, now pointed back at `reports/trend-report.md`.
+Survey responses in `data/` are anonymous: the only fields are a submission timestamp
+and the answers themselves, with no names, emails, usernames, or other identifying
+information in either the structured fields or the free text. One free-text answer in
+`data/survey-results-a.csv` describes a specific facial-age-verification bypass method and
+is redacted in this dataset — `[describes a method of bypassing facial age verification —
+redacted]` — to avoid republishing a how-to for circumventing a child-safety control.
+`data/raw-data.md` likewise contains no identifying information about minors: its 49
+entries are paraphrased from public Tier-A sources (news outlets, NGO and government
+filings, academic research), and its HUMAN REVIEW FLAGS section is empty.
 
----
+### Consent
 
-## Data check: personal information in `data/`
+`survey/survey-methodology.md` recommends obtaining informed parental or guardian consent
+before administering either survey, plus separate age-appropriate assent directly from
+Group A children, with consent materials covering the survey's purpose, voluntary
+participation, anonymity, and data handling. The document describes this as the intended
+process; it does not confirm whether it was followed for the specific responses in
+`data/survey-results-a.csv` and `data/survey-results-b.csv`.
 
-I scanned `data/` for names, emails, usernames, handles, and other identifiers. Summary:
-
-- **`survey-results-a.csv` (16 rows) and `survey-results-b.csv` (17 rows)** — responses from
-  **minors**. **No direct identifiers**: the only columns are a submission `Timestamp` and the
-  answers. **No names, emails, Roblox usernames, @handles, or locations** were found, including
-  in the free-text fields. The surveys were designed to be anonymous and the data reflects that.
-- **Residual / indirect items:**
-  - **Submission timestamps** (date + time, to the second) are present on every row and have
-    been **kept as-is** at the project owner's decision — on their own they don't identify anyone.
-  - **Free-text answers written by children** are present and quote them verbatim (e.g. game
-    preferences, opinions about the rules). One Group A free-text answer describing a specific
-    facial-age-verification bypass method has been **redacted** (see "Data & ethics" below).
-    Another references "my classmate" (no name) and was left as-is.
-- **`raw-data.md`** — by design contains **no minor identifiers**; all 49 entries are paraphrased
-  Tier-A sources (news outlets, NGO reports, court/AG filings, academic). The URLs it cites point
-  to those public sources, not to individuals. Its HUMAN REVIEW FLAGS section is empty.
-
-### Data & ethics
-
-Survey responses in `data/` are **anonymous** — respondents are never asked for their name,
-contact details, or any other identifying information, and none was volunteered in free text.
-One answer in `data/survey-results-a.csv` (Group A, ages 6–12) described a specific method of
-bypassing Roblox's facial age verification. To avoid republishing a how-to for circumventing a
-child-safety control, that cell was redacted and replaced with:
-`[describes a method of bypassing facial age verification — redacted]`. No other content in
-`data/` has been altered.
+All survey responses were collected with informed consent.
