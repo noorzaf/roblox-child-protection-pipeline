@@ -1,5 +1,7 @@
 # Roblox Child Protection Pipeline
 
+📄 **Read the full policy report:** [PDF](reports/final-report.pdf) · [Markdown](reports/final-report.md)
+
 A multi-agent research pipeline that studies **child protection laws and how well they
 actually work on Roblox**, across eight jurisdictions. It combines three independent
 research streams — the legal framework, real-world efficacy evidence, and a survey of
