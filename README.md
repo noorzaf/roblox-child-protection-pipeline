@@ -230,6 +230,5 @@ filings, academic research), and its HUMAN REVIEW FLAGS section is empty.
 
 ### Consent
 
-All survey responses were collected with informed consent. Participants were told the
-survey's purpose, that taking part was voluntary, and that their answers would be anonymous.
-The consent design is set out in `survey/survey-methodology.md`.
+All survey responses were collected with informed consent. The consent process is set out
+in `survey/survey-methodology.md`.
