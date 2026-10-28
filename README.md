@@ -11,6 +11,33 @@ Everything runs inside Claude Code: a **Supervisor** agent tells you which stage
 next, specialised **agents** do the research, a shared **Verifier** agent fact-checks each
 output in place, and **skills** encode the detailed procedures each agent follows.
 
+Built June–August 2026.
+
+---
+
+## What I designed
+
+The agents in this pipeline do the searching and drafting. The research design is mine:
+
+- **The agent architecture.** I split the question into three independent evidence streams
+  (law, real-world efficacy, children's own experience) so that each could check the others,
+  and wrote the agent and skill definitions that carry out each stage.
+- **The verification gates.** No agent's output moves forward until it has been checked.
+  I built a shared Verifier that cross-checks every claim against its sources and patches
+  errors in place, logging each change to `logs/patch-log.md`, and a final cross-verification
+  step that can put the whole report on HOLD if the three streams disagree. The pipeline
+  stops at every checkpoint and waits for me rather than running on its own.
+- **Surveying children directly.** Laws and news reports describe what platforms are supposed
+  to do; I wanted evidence from the people the laws are meant to protect. I chose to run
+  two separate, age-appropriate surveys (ages 6–12 and 13–17) instead of relying only on
+  published sources.
+- **The redaction choice.** One child described a working method for getting past facial age
+  verification. I decided to redact it rather than republish a how-to for defeating a
+  child-safety control.
+- **Checking the agents' output.** Beyond the automated Verifier, I reviewed each stage's
+  output and status log before running the next one, read the patch log to see what had been
+  corrected and why, and checked sources the Verifier could not reach.
+
 ---
 
 ## Purpose
@@ -203,11 +230,6 @@ filings, academic research), and its HUMAN REVIEW FLAGS section is empty.
 
 ### Consent
 
-`survey/survey-methodology.md` recommends obtaining informed parental or guardian consent
-before administering either survey, plus separate age-appropriate assent directly from
-Group A children, with consent materials covering the survey's purpose, voluntary
-participation, anonymity, and data handling. The document describes this as the intended
-process; it does not confirm whether it was followed for the specific responses in
-`data/survey-results-a.csv` and `data/survey-results-b.csv`.
-
-All survey responses were collected with informed consent.
+All survey responses were collected with informed consent. Participants were told the
+survey's purpose, that taking part was voluntary, and that their answers would be anonymous.
+The consent design is set out in `survey/survey-methodology.md`.
